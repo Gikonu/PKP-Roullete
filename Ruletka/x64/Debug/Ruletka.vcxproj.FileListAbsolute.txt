@@ -1,0 +1,4 @@
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\x64\Debug\Ruletka.vcxproj.AssemblyReference.cache
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\x64\Debug\Ruletka.MyForm.resources
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\x64\Debug\Ruletka.vcxproj.GenerateResource.cache
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\x64\Debug\Ruletka.StartForm.resources
