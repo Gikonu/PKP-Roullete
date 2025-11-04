@@ -1,4 +1,4 @@
-#include "MyForm.h"
+#include "StartForm.h"
 
 using namespace Ruletka;
 
@@ -7,6 +7,6 @@ int main(array<System::String^>^ args)
 {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
-	Application::Run(gcnew MyForm());
+	Application::Run(gcnew StartForm());
 	return 0;
 }

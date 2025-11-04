@@ -25,7 +25,7 @@ namespace Ruletka {
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
-			roulette = new Roulette();
+			
 			coins = gcnew array<String^> { "M1.png", "M2.png", "M3.png", "M4.png", "M5.png" };
 		}
 
@@ -38,13 +38,14 @@ namespace Ruletka {
 			if (components)
 			{
 				delete components;
-				delete roulette;
 			}
+			delete roulette;
+			
 		}
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::Button^ StartButton;
-	private: System::Windows::Forms::TextBox^ StartMoneyBox;
-	private: System::Windows::Forms::TextBox^ PlayerAmountBox;
+
+
 	private: System::Windows::Forms::PictureBox^ Player1Coin;
 	private: System::Windows::Forms::PictureBox^ Player2Coin;
 	private: System::Windows::Forms::PictureBox^ Player3Coin;
@@ -74,8 +75,41 @@ namespace Ruletka {
 
 	private:
 		Roulette* roulette;
-		bool start = false;
-		array<System::String^>^ coins;
+	private: System::Windows::Forms::Button^ AutorButton;
+
+		   array<System::String^>^ coins;
+	public:
+		void SetRoulette(Roulette* Roulette)
+		{
+			roulette = Roulette;
+
+			int pa = roulette->GetPlayerAmount();
+			int sm = roulette->GetPlayerMoney(1);
+
+			if (pa >= 1)
+			{
+				this->Player1MoneyLabel->Text = marshal_as<String^>("1. " + std::to_string(sm) + "$");
+			}
+			if (pa >= 2)
+			{
+				this->Player2MoneyLabel->Text = marshal_as<String^>("2. " + std::to_string(sm) + "$");
+			}
+			if (pa >= 3)
+			{
+				this->Player3MoneyLabel->Text = marshal_as<String^>("3. " + std::to_string(sm) + "$");
+			}
+			if (pa >= 4)
+			{
+				this->Player4MoneyLabel->Text = marshal_as<String^>("4. " + std::to_string(sm) + "$");
+			}
+			if (pa >= 5)
+			{
+				this->Player5MoneyLabel->Text = marshal_as<String^>("5. " + std::to_string(sm) + "$");
+			}
+
+			roulette->StartTurn();
+			ActualTurnCoin->BackgroundImage = Image::FromFile(coins[roulette->GetPlayerTurn() - 1]);
+		}
 
 	private: System::Windows::Forms::TextBox^ BetValueBox;
 	private: System::Windows::Forms::Label^ RandomNumberLabel;
@@ -96,8 +130,6 @@ namespace Ruletka {
 			   System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			   this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			   this->StartButton = (gcnew System::Windows::Forms::Button());
-			   this->StartMoneyBox = (gcnew System::Windows::Forms::TextBox());
-			   this->PlayerAmountBox = (gcnew System::Windows::Forms::TextBox());
 			   this->Player1Coin = (gcnew System::Windows::Forms::PictureBox());
 			   this->Player2Coin = (gcnew System::Windows::Forms::PictureBox());
 			   this->Player3Coin = (gcnew System::Windows::Forms::PictureBox());
@@ -112,6 +144,7 @@ namespace Ruletka {
 			   this->BetValueBox = (gcnew System::Windows::Forms::TextBox());
 			   this->RandomNumberLabel = (gcnew System::Windows::Forms::Label());
 			   this->ActualTurnCoin = (gcnew System::Windows::Forms::PictureBox());
+			   this->AutorButton = (gcnew System::Windows::Forms::Button());
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player1Coin))->BeginInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player2Coin))->BeginInit();
@@ -140,27 +173,9 @@ namespace Ruletka {
 			   this->StartButton->Name = L"StartButton";
 			   this->StartButton->Size = System::Drawing::Size(156, 34);
 			   this->StartButton->TabIndex = 1;
-			   this->StartButton->Text = L"Start/Rand";
+			   this->StartButton->Text = L"Rand";
 			   this->StartButton->UseVisualStyleBackColor = true;
 			   this->StartButton->Click += gcnew System::EventHandler(this, &MyForm::StartButton_Click);
-			   // 
-			   // StartMoneyBox
-			   // 
-			   this->StartMoneyBox->Location = System::Drawing::Point(966, 52);
-			   this->StartMoneyBox->Name = L"StartMoneyBox";
-			   this->StartMoneyBox->Size = System::Drawing::Size(156, 20);
-			   this->StartMoneyBox->TabIndex = 2;
-			   this->StartMoneyBox->Text = L"Start money";
-			   this->StartMoneyBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			   // 
-			   // PlayerAmountBox
-			   // 
-			   this->PlayerAmountBox->Location = System::Drawing::Point(966, 78);
-			   this->PlayerAmountBox->Name = L"PlayerAmountBox";
-			   this->PlayerAmountBox->Size = System::Drawing::Size(156, 20);
-			   this->PlayerAmountBox->TabIndex = 3;
-			   this->PlayerAmountBox->Text = L"Players amout(1-5)";
-			   this->PlayerAmountBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
 			   // 
 			   // Player1Coin
 			   // 
@@ -314,12 +329,25 @@ namespace Ruletka {
 			   this->ActualTurnCoin->TabIndex = 17;
 			   this->ActualTurnCoin->TabStop = false;
 			   // 
+			   // AutorButton
+			   // 
+			   this->AutorButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				   static_cast<System::Byte>(238)));
+			   this->AutorButton->Location = System::Drawing::Point(1100, 52);
+			   this->AutorButton->Name = L"AutorButton";
+			   this->AutorButton->Size = System::Drawing::Size(22, 29);
+			   this->AutorButton->TabIndex = 18;
+			   this->AutorButton->Text = L"\?";
+			   this->AutorButton->UseVisualStyleBackColor = true;
+			   this->AutorButton->Click += gcnew System::EventHandler(this, &MyForm::AutorButton_Click);
+			   // 
 			   // MyForm
 			   // 
 			   this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			   this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			   this->BackColor = System::Drawing::Color::DarkOliveGreen;
 			   this->ClientSize = System::Drawing::Size(1134, 481);
+			   this->Controls->Add(this->AutorButton);
 			   this->Controls->Add(this->ActualTurnCoin);
 			   this->Controls->Add(this->RandomNumberLabel);
 			   this->Controls->Add(this->BetValueBox);
@@ -334,12 +362,11 @@ namespace Ruletka {
 			   this->Controls->Add(this->Player3Coin);
 			   this->Controls->Add(this->Player2Coin);
 			   this->Controls->Add(this->Player1Coin);
-			   this->Controls->Add(this->PlayerAmountBox);
-			   this->Controls->Add(this->StartMoneyBox);
 			   this->Controls->Add(this->StartButton);
 			   this->Controls->Add(this->pictureBox1);
 			   this->Name = L"MyForm";
 			   this->Text = L"MyForm";
+			   this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MyForm::MyForm_FormClosed);
 			   this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player1Coin))->EndInit();
@@ -356,77 +383,43 @@ namespace Ruletka {
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 
-	private: System::Void StartButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (!start)
-		{
-			int pa = 0, sm = 0;
-			pa = System::Int32::Parse(this->PlayerAmountBox->Text);
-			sm = System::Int32::Parse(this->StartMoneyBox->Text);
-			if (System::Int32::TryParse(this->PlayerAmountBox->Text, pa) && System::Int32::TryParse(this->StartMoneyBox->Text, sm))
-			{
-				roulette->SetStartMoney(sm);
-				roulette->SetPlayerAmount(pa);
-				if (pa >= 1)
-				{
-					this->Player1MoneyLabel->Text = marshal_as<String^>("1." + std::to_string(sm) + "$");
-				}
-				if (pa >= 2)
-				{
-					this->Player2MoneyLabel->Text = marshal_as<String^>("2." + std::to_string(sm) + "$");
-				}
-				if (pa >= 3)
-				{
-					this->Player3MoneyLabel->Text = marshal_as<String^>("3." + std::to_string(sm) + "$");
-				}
-				if (pa >= 4)
-				{
-					this->Player4MoneyLabel->Text = marshal_as<String^>("4." + std::to_string(sm) + "$");
-				}
-				if (pa >= 5)
-				{
-					this->Player5MoneyLabel->Text = marshal_as<String^>("5." + std::to_string(sm) + "$");
-				}
-				start = true;
-
-				roulette->StartTurn();
-				ActualTurnCoin->BackgroundImage = Image::FromFile(coins[roulette->GetPlayerTurn() - 1]);
-			}
-			else
-			{
-				MessageBox::Show("Niepoprawne dane wejœciowe!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-			}
-		}
-		else
-		{
+	private: System::Void StartButton_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		
 			int n = roulette->Random();
 			this->RandomNumberLabel->Text = marshal_as<String^>(std::to_string(n));
 			int pa = roulette->GetPlayerAmount();
 
 			if (pa >= 1)
 			{
-				this->Player1MoneyLabel->Text = marshal_as<String^>("1." + std::to_string(roulette->GetPlayerMoney(1)) + "$");
+				this->Player1MoneyLabel->Text = marshal_as<String^>("1. " + std::to_string(roulette->GetPlayerMoney(1)) + "$");
 			}
 			if (pa >= 2)
 			{
-				this->Player2MoneyLabel->Text = marshal_as<String^>("2." + std::to_string(roulette->GetPlayerMoney(2)) + "$");
+				this->Player2MoneyLabel->Text = marshal_as<String^>("2. " + std::to_string(roulette->GetPlayerMoney(2)) + "$");
 			}
 			if (pa >= 3)
 			{
-				this->Player3MoneyLabel->Text = marshal_as<String^>("3." + std::to_string(roulette->GetPlayerMoney(3)) + "$");
+				this->Player3MoneyLabel->Text = marshal_as<String^>("3. " + std::to_string(roulette->GetPlayerMoney(3)) + "$");
 			}
 			if (pa >= 4)
 			{
-				this->Player4MoneyLabel->Text = marshal_as<String^>("4." + std::to_string(roulette->GetPlayerMoney(4)) + "$");
+				this->Player4MoneyLabel->Text = marshal_as<String^>("4. " + std::to_string(roulette->GetPlayerMoney(4)) + "$");
 			}
 			if (pa >= 5)
 			{
-				this->Player5MoneyLabel->Text = marshal_as<String^>("5." + std::to_string(roulette->GetPlayerMoney(5)) + "$");
+				this->Player5MoneyLabel->Text = marshal_as<String^>("5. " + std::to_string(roulette->GetPlayerMoney(5)) + "$");
 			}
 
 			if (roulette->StartTurn() == 0)
 			{
-				MessageBox::Show("Bankruci", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-				start = false;
+				System::String^ tyms = gcnew System::String("Bankruci: ");
+				for (int i = 0; i < pa; i++)
+				{
+					tyms = tyms + marshal_as<String^>(roulette->GetPlayerName(i + 1)) + " ";
+				}
+				MessageBox::Show(tyms, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+				Application::Exit();
 			}
 			else
 			{
@@ -440,12 +433,9 @@ namespace Ruletka {
 			this->Player5Coin->Location = System::Drawing::Point(1070, 449);
 			roulette->NullBit();
 
-			
-		}
 	}
 	private: System::Void pictureBox1_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
-		if (start)
-		{
+		
 			int bet;
 			if (System::Int32::TryParse(this->BetValueBox->Text, bet))
 			{
@@ -494,7 +484,16 @@ namespace Ruletka {
 			{
 				MessageBox::Show("Niepoprawne dane wejœciowe(zak³ad)!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
 			}
-		}
+		
 	}
-};
+	private: System::Void MyForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) 
+	{
+		Application::Exit();
+	}
+
+	private: System::Void AutorButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		MessageBox::Show("Projekt gry \"ruletka\" na przedmiot \n\"Zastosowania programowania obiektowego\"\nUczelina: Politechnika Koszaliñska\nWydzia³: Elektorniki i Informatyki \nAutor: Jakub Kasprzyk", "Autor", MessageBoxButtons::OK, MessageBoxIcon::Information);
+	}
+	};
 }

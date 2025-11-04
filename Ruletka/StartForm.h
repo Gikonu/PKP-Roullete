@@ -1,5 +1,6 @@
 #pragma once
 #include "Roulette.h"
+#include "MyForm.h"
 
 namespace Ruletka {
 
@@ -23,6 +24,7 @@ namespace Ruletka {
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
 			roulette = new Roulette();
+			playerN = gcnew array<System::String^>{"", "", "", "", ""};
 		}
 
 	protected:
@@ -35,10 +37,13 @@ namespace Ruletka {
 			{
 				delete components;
 			}
-			
+			delete[] playerN;
 		}
 
+	private:
 		Roulette* roulette;
+		array<System::String^>^ playerN;
+		int p = 1, pa = 1, sm = 100;
 
 	private: System::Windows::Forms::Button^ StartButton;
 	private: System::Windows::Forms::TextBox^ playerAmountTextBox;
@@ -171,15 +176,70 @@ namespace Ruletka {
 
 	private: System::Void playerAmountTextBox_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) 
 	{
+		if (e->KeyCode == Keys::Enter)
+		{
+			if (System::Int32::TryParse(this->playerAmountTextBox->Text, pa))
+			{
+				e->Handled = true;         
+				e->SuppressKeyPress = true;
+				moneyTextBox->Focus();
+			}
+			else
+			{
+				MessageBox::Show("Niepoprawne dane wejœciowe!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
+		}
 	}
 	private: System::Void moneyTextBox_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) 
 	{
+		if (e->KeyCode == Keys::Enter)
+		{
+			if (System::Int32::TryParse(this->moneyTextBox->Text, sm))
+			{
+				e->Handled = true;
+				e->SuppressKeyPress = true;
+				playerNameTextBox->Focus();
+			}
+			else
+			{
+				MessageBox::Show("Niepoprawne dane wejœciowe!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
+		}
 	}
 	private: System::Void playerNameTextBox_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e)
 	{
+		if (e->KeyCode == Keys::Enter)
+		{
+			playerN[p-1] = playerNameTextBox->Text;
+			p++;
+			if (p == pa+1)
+			{
+				p = 1;
+			}
+			PlayerNameLabel->Text = "Player " + p.ToString() + " name";
+			playerNameTextBox->Text = "";
+		}
 	}
 	private: System::Void StartButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
+		System::Int32::TryParse(this->playerAmountTextBox->Text, pa);
+		System::Int32::TryParse(this->moneyTextBox->Text, sm);
+		
+		if (!roulette->SetStartMoney(sm) || !roulette->SetPlayerAmount(pa))
+		{
+			MessageBox::Show("Niepoprawne dane wejœciowe!", "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+		}
+
+		for (int i = 1; i <= pa; i++)
+		{
+			System::String^ tym = playerN[i - 1];
+			roulette->SetPlayerName(i, marshal_as<std::string, System::String^>(tym));
+		}
+
+		MyForm^ form = gcnew MyForm();
+		form->SetRoulette(roulette);
+		form->ShowDialog();
 	}
 };
 }
