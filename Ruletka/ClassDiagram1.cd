@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Roulette">
+    <Position X="2.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IiAAIgAoEgggAIAAHAIAMUCgAAAgBAACCAAABAAAAAA=</HashCode>
+      <FileName>Roulette.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="sBet">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAEAg=</HashCode>
+      <FileName>Roulette.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="sVector">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABgAAAAAAA=</HashCode>
+      <FileName>Roulette.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="eBet">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAEBAAAAACAAAAAAQAAIAARERAAA=</HashCode>
+      <FileName>Roulette.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

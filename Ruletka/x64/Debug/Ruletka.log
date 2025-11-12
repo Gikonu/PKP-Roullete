@@ -1,6 +1,15 @@
-﻿  MyForm.cpp
-  StartForm.cpp
-  main.cpp
-  Generowanie kodu...
+﻿  Roulette.cpp
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(7,12): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(370,13): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(411,37): warning C4244: "=": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(412,37): warning C4244: "=": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(388,43): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(400,43): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(458,43): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(471,43): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(486,43): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(498,43): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(563,1): warning C4715: "Roulette::IsNextTurn”: niewszystkie ścieżki kodu zwracają wartość
+C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\Ruletka\Roulette.cpp(527,1): warning C4715: "Roulette::NextTurn”: niewszystkie ścieżki kodu zwracają wartość
   main.obj : napotkano moduł MSIL; konsolidowanie przyrostowe jest wyłączone dla modułów MSIL; zostanie wykonana pełna konsolidacja
   Ruletka.vcxproj -> C:\Users\Jakub\Documents\ProjectsCpp\Ruletka\x64\Debug\Ruletka.exe

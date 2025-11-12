@@ -75,7 +75,21 @@ namespace Ruletka {
 
 	private:
 		Roulette* roulette;
-	private: System::Windows::Forms::Button^ AutorButton;
+		bool bClose = true;
+
+	private: System::Windows::Forms::MenuStrip^ menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^ toolStripMenuItem_File;
+	private: System::Windows::Forms::ToolStripMenuItem^ toolStripMenuItem_New;
+	private: System::Windows::Forms::ToolStripMenuItem^ toolStripMenuItem_Exit;
+	private: System::Windows::Forms::ToolStripMenuItem^ toolStripMenuItem_Help;
+	private: System::Windows::Forms::ToolStripMenuItem^ toolStripMenuItem_Abaut;
+	private: System::Windows::Forms::ToolStripMenuItem^ toolStripMenuItem_Best;
+
+
+
+
+
+
 
 		   array<System::String^>^ coins;
 	public:
@@ -88,23 +102,48 @@ namespace Ruletka {
 
 			if (pa >= 1)
 			{
-				this->Player1MoneyLabel->Text = marshal_as<String^>("1. " + std::to_string(sm) + "$");
+				this->Player1MoneyLabel->Text = marshal_as<String^>("1.(" + roulette->GetPlayerName(1) + ") " + std::to_string(sm) + "$");
+			}
+			else
+			{
+				this->Player1MoneyLabel->Visible = false;
+				this->Player1Coin->Visible = false;
 			}
 			if (pa >= 2)
 			{
-				this->Player2MoneyLabel->Text = marshal_as<String^>("2. " + std::to_string(sm) + "$");
+				this->Player2MoneyLabel->Text = marshal_as<String^>("2.(" + roulette->GetPlayerName(2) + ") " + std::to_string(sm) + "$");
+			}
+			else
+			{
+				this->Player2MoneyLabel->Visible = false;
+				this->Player2Coin->Visible = false;
 			}
 			if (pa >= 3)
 			{
-				this->Player3MoneyLabel->Text = marshal_as<String^>("3. " + std::to_string(sm) + "$");
+				this->Player3MoneyLabel->Text = marshal_as<String^>("3.(" + roulette->GetPlayerName(3) + ") " + std::to_string(sm) + "$");
+			}
+			else
+			{
+				this->Player3MoneyLabel->Visible = false;
+				this->Player3Coin->Visible = false;
 			}
 			if (pa >= 4)
 			{
-				this->Player4MoneyLabel->Text = marshal_as<String^>("4. " + std::to_string(sm) + "$");
+				this->Player4MoneyLabel->Text = marshal_as<String^>("4.(" + roulette->GetPlayerName(4) + ") " + std::to_string(sm) + "$");
+			}
+			else
+			{
+				this->Player4MoneyLabel->Visible = false;
+				this->Player4Coin->Visible = false;
 			}
 			if (pa >= 5)
 			{
-				this->Player5MoneyLabel->Text = marshal_as<String^>("5. " + std::to_string(sm) + "$");
+				this->Player5MoneyLabel->Text = marshal_as<String^>("5.(" + roulette->GetPlayerName(5) + ") " + std::to_string(sm) + "$");
+			}
+			else
+			{
+				this->Player5MoneyLabel->Visible = false;
+				this->Player5Coin->Visible = false;
 			}
 
 			roulette->StartTurn();
@@ -144,7 +183,13 @@ namespace Ruletka {
 			   this->BetValueBox = (gcnew System::Windows::Forms::TextBox());
 			   this->RandomNumberLabel = (gcnew System::Windows::Forms::Label());
 			   this->ActualTurnCoin = (gcnew System::Windows::Forms::PictureBox());
-			   this->AutorButton = (gcnew System::Windows::Forms::Button());
+			   this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			   this->toolStripMenuItem_File = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			   this->toolStripMenuItem_New = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			   this->toolStripMenuItem_Exit = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			   this->toolStripMenuItem_Help = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			   this->toolStripMenuItem_Abaut = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			   this->toolStripMenuItem_Best = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player1Coin))->BeginInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player2Coin))->BeginInit();
@@ -152,6 +197,7 @@ namespace Ruletka {
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player4Coin))->BeginInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player5Coin))->BeginInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ActualTurnCoin))->BeginInit();
+			   this->menuStrip1->SuspendLayout();
 			   this->SuspendLayout();
 			   // 
 			   // pictureBox1
@@ -169,7 +215,7 @@ namespace Ruletka {
 			   // 
 			   this->StartButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				   static_cast<System::Byte>(238)));
-			   this->StartButton->Location = System::Drawing::Point(966, 12);
+			   this->StartButton->Location = System::Drawing::Point(966, 27);
 			   this->StartButton->Name = L"StartButton";
 			   this->StartButton->Size = System::Drawing::Size(156, 34);
 			   this->StartButton->TabIndex = 1;
@@ -329,17 +375,65 @@ namespace Ruletka {
 			   this->ActualTurnCoin->TabIndex = 17;
 			   this->ActualTurnCoin->TabStop = false;
 			   // 
-			   // AutorButton
+			   // menuStrip1
 			   // 
-			   this->AutorButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				   static_cast<System::Byte>(238)));
-			   this->AutorButton->Location = System::Drawing::Point(1100, 52);
-			   this->AutorButton->Name = L"AutorButton";
-			   this->AutorButton->Size = System::Drawing::Size(22, 29);
-			   this->AutorButton->TabIndex = 18;
-			   this->AutorButton->Text = L"\?";
-			   this->AutorButton->UseVisualStyleBackColor = true;
-			   this->AutorButton->Click += gcnew System::EventHandler(this, &MyForm::AutorButton_Click);
+			   this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				   this->toolStripMenuItem_File,
+					   this->toolStripMenuItem_Help
+			   });
+			   this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			   this->menuStrip1->Name = L"menuStrip1";
+			   this->menuStrip1->Size = System::Drawing::Size(1134, 24);
+			   this->menuStrip1->TabIndex = 19;
+			   this->menuStrip1->Text = L"menuStrip1";
+			   // 
+			   // toolStripMenuItem_File
+			   // 
+			   this->toolStripMenuItem_File->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				   this->toolStripMenuItem_New,
+					   this->toolStripMenuItem_Exit
+			   });
+			   this->toolStripMenuItem_File->Name = L"toolStripMenuItem_File";
+			   this->toolStripMenuItem_File->Size = System::Drawing::Size(37, 20);
+			   this->toolStripMenuItem_File->Text = L"File";
+			   // 
+			   // toolStripMenuItem_New
+			   // 
+			   this->toolStripMenuItem_New->Name = L"toolStripMenuItem_New";
+			   this->toolStripMenuItem_New->Size = System::Drawing::Size(98, 22);
+			   this->toolStripMenuItem_New->Text = L"New";
+			   this->toolStripMenuItem_New->Click += gcnew System::EventHandler(this, &MyForm::toolStripMenuItem_New_Click);
+			   // 
+			   // toolStripMenuItem_Exit
+			   // 
+			   this->toolStripMenuItem_Exit->Name = L"toolStripMenuItem_Exit";
+			   this->toolStripMenuItem_Exit->Size = System::Drawing::Size(98, 22);
+			   this->toolStripMenuItem_Exit->Text = L"Exit";
+			   this->toolStripMenuItem_Exit->Click += gcnew System::EventHandler(this, &MyForm::toolStripMenuItem_Exit_Click);
+			   // 
+			   // toolStripMenuItem_Help
+			   // 
+			   this->toolStripMenuItem_Help->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				   this->toolStripMenuItem_Abaut,
+					   this->toolStripMenuItem_Best
+			   });
+			   this->toolStripMenuItem_Help->Name = L"toolStripMenuItem_Help";
+			   this->toolStripMenuItem_Help->Size = System::Drawing::Size(44, 20);
+			   this->toolStripMenuItem_Help->Text = L"Help";
+			   // 
+			   // toolStripMenuItem_Abaut
+			   // 
+			   this->toolStripMenuItem_Abaut->Name = L"toolStripMenuItem_Abaut";
+			   this->toolStripMenuItem_Abaut->Size = System::Drawing::Size(106, 22);
+			   this->toolStripMenuItem_Abaut->Text = L"Abaut";
+			   this->toolStripMenuItem_Abaut->Click += gcnew System::EventHandler(this, &MyForm::toolStripMenuItem_Abaut_Click);
+			   // 
+			   // toolStripMenuItem_Best
+			   // 
+			   this->toolStripMenuItem_Best->Name = L"toolStripMenuItem_Best";
+			   this->toolStripMenuItem_Best->Size = System::Drawing::Size(106, 22);
+			   this->toolStripMenuItem_Best->Text = L"Best";
+			   this->toolStripMenuItem_Best->Click += gcnew System::EventHandler(this, &MyForm::toolStripMenuItem_Best_Click);
 			   // 
 			   // MyForm
 			   // 
@@ -347,7 +441,7 @@ namespace Ruletka {
 			   this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			   this->BackColor = System::Drawing::Color::DarkOliveGreen;
 			   this->ClientSize = System::Drawing::Size(1134, 481);
-			   this->Controls->Add(this->AutorButton);
+			   this->Controls->Add(this->menuStrip1);
 			   this->Controls->Add(this->ActualTurnCoin);
 			   this->Controls->Add(this->RandomNumberLabel);
 			   this->Controls->Add(this->BetValueBox);
@@ -364,6 +458,7 @@ namespace Ruletka {
 			   this->Controls->Add(this->Player1Coin);
 			   this->Controls->Add(this->StartButton);
 			   this->Controls->Add(this->pictureBox1);
+			   this->MainMenuStrip = this->menuStrip1;
 			   this->Name = L"MyForm";
 			   this->Text = L"MyForm";
 			   this->FormClosed += gcnew System::Windows::Forms::FormClosedEventHandler(this, &MyForm::MyForm_FormClosed);
@@ -375,6 +470,8 @@ namespace Ruletka {
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player4Coin))->EndInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Player5Coin))->EndInit();
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->ActualTurnCoin))->EndInit();
+			   this->menuStrip1->ResumeLayout(false);
+			   this->menuStrip1->PerformLayout();
 			   this->ResumeLayout(false);
 			   this->PerformLayout();
 
@@ -392,23 +489,23 @@ namespace Ruletka {
 
 			if (pa >= 1)
 			{
-				this->Player1MoneyLabel->Text = marshal_as<String^>("1. " + std::to_string(roulette->GetPlayerMoney(1)) + "$");
+				this->Player1MoneyLabel->Text = marshal_as<String^>("1.(" + roulette->GetPlayerName(1) + ") " + std::to_string(roulette->GetPlayerMoney(1)) + "$");
 			}
 			if (pa >= 2)
 			{
-				this->Player2MoneyLabel->Text = marshal_as<String^>("2. " + std::to_string(roulette->GetPlayerMoney(2)) + "$");
+				this->Player2MoneyLabel->Text = marshal_as<String^>("2.(" + roulette->GetPlayerName(2) + ") " + std::to_string(roulette->GetPlayerMoney(2)) + "$");
 			}
 			if (pa >= 3)
 			{
-				this->Player3MoneyLabel->Text = marshal_as<String^>("3. " + std::to_string(roulette->GetPlayerMoney(3)) + "$");
+				this->Player3MoneyLabel->Text = marshal_as<String^>("3.(" + roulette->GetPlayerName(3) + ") " + std::to_string(roulette->GetPlayerMoney(3)) + "$");
 			}
 			if (pa >= 4)
 			{
-				this->Player4MoneyLabel->Text = marshal_as<String^>("4. " + std::to_string(roulette->GetPlayerMoney(4)) + "$");
+				this->Player4MoneyLabel->Text = marshal_as<String^>("4.(" + roulette->GetPlayerName(4) + ") " + std::to_string(roulette->GetPlayerMoney(4)) + "$");
 			}
 			if (pa >= 5)
 			{
-				this->Player5MoneyLabel->Text = marshal_as<String^>("5. " + std::to_string(roulette->GetPlayerMoney(5)) + "$");
+				this->Player5MoneyLabel->Text = marshal_as<String^>("5.(" + roulette->GetPlayerName(5) + ") " + std::to_string(roulette->GetPlayerMoney(5)) + "$");
 			}
 
 			if (roulette->StartTurn() == 0)
@@ -419,7 +516,9 @@ namespace Ruletka {
 					tyms = tyms + marshal_as<String^>(roulette->GetPlayerName(i + 1)) + " ";
 				}
 				MessageBox::Show(tyms, "Error", MessageBoxButtons::OK, MessageBoxIcon::Error);
-				Application::Exit();
+				//Application::Exit();
+				bClose = false;
+				this->Close();
 			}
 			else
 			{
@@ -432,6 +531,7 @@ namespace Ruletka {
 			this->Player4Coin->Location = System::Drawing::Point(1044, 449);
 			this->Player5Coin->Location = System::Drawing::Point(1070, 449);
 			roulette->NullBit();
+			roulette->UpdateBest();
 
 	}
 	private: System::Void pictureBox1_MouseClick(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e) {
@@ -486,14 +586,102 @@ namespace Ruletka {
 			}
 		
 	}
+
 	private: System::Void MyForm_FormClosed(System::Object^ sender, System::Windows::Forms::FormClosedEventArgs^ e) 
 	{
-		Application::Exit();
+		roulette->UpdateBest();
+		roulette->SaveBest();
+		if (bClose)
+		{
+			Application::Exit();
+		}
+	}
+	
+	private: System::Void toolStripMenuItem_New_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		roulette->UpdateBest();
+
+		roulette->SetPlayerAmount(roulette->GetPlayerAmount());
+
+		int pa = roulette->GetPlayerAmount();
+		int sm = roulette->GetPlayerMoney(1);
+
+		if (pa >= 1)
+		{
+			this->Player1MoneyLabel->Text = marshal_as<String^>("1.(" + roulette->GetPlayerName(1) + ") " + std::to_string(sm) + "$");
+		}
+		else
+		{
+			this->Player1MoneyLabel->Visible = false;
+			this->Player1Coin->Visible = false;
+		}
+		if (pa >= 2)
+		{
+			this->Player2MoneyLabel->Text = marshal_as<String^>("2.(" + roulette->GetPlayerName(2) + ") " + std::to_string(sm) + "$");
+		}
+		else
+		{
+			this->Player2MoneyLabel->Visible = false;
+			this->Player2Coin->Visible = false;
+		}
+		if (pa >= 3)
+		{
+			this->Player3MoneyLabel->Text = marshal_as<String^>("3.(" + roulette->GetPlayerName(3) + ") " + std::to_string(sm) + "$");
+		}
+		else
+		{
+			this->Player3MoneyLabel->Visible = false;
+			this->Player3Coin->Visible = false;
+		}
+		if (pa >= 4)
+		{
+			this->Player4MoneyLabel->Text = marshal_as<String^>("4.(" + roulette->GetPlayerName(4) + ") " + std::to_string(sm) + "$");
+		}
+		else
+		{
+			this->Player4MoneyLabel->Visible = false;
+			this->Player4Coin->Visible = false;
+		}
+		if (pa >= 5)
+		{
+			this->Player5MoneyLabel->Text = marshal_as<String^>("5.(" + roulette->GetPlayerName(5) + ") " + std::to_string(sm) + "$");
+		}
+		else
+		{
+			this->Player5MoneyLabel->Visible = false;
+			this->Player5Coin->Visible = false;
+		}
+
+		roulette->StartTurn();
+		ActualTurnCoin->BackgroundImage = Image::FromFile(coins[roulette->GetPlayerTurn() - 1]);
 	}
 
-	private: System::Void AutorButton_Click(System::Object^ sender, System::EventArgs^ e)
+	private: System::Void toolStripMenuItem_Exit_Click(System::Object^ sender, System::EventArgs^ e) 
 	{
-		MessageBox::Show("Projekt gry \"ruletka\" na przedmiot \n\"Zastosowania programowania obiektowego\"\nUczelina: Politechnika Koszaliñska\nWydzia³: Elektorniki i Informatyki \nAutor: Jakub Kasprzyk", "Autor", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		bClose = false;
+		this->Close();
 	}
-	};
+
+	private: System::Void toolStripMenuItem_Abaut_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		MessageBox::Show("Projekt gry \"ruletka\" na przedmiot \n\"Zastosowania programowania obiektowego\"\nUczelina: Politechnika Koszaliñska\nWydzia³: Elektorniki i Informatyki\nRok akademicki: 2025/26 \nAutor: Jakub Kasprzyk", "Autor", MessageBoxButtons::OK, MessageBoxIcon::None);
+	}
+
+	private: System::Void toolStripMenuItem_Best_Click(System::Object^ sender, System::EventArgs^ e) 
+	{
+		roulette->SaveBest();
+
+		System::String^ text = gcnew System::String("");
+
+		int money[5]; std::string name[5];
+		roulette->GetBest(money,name);
+
+		for (int i = 0; i < 5; i++)
+		{
+			text = text + marshal_as< System::String^ >(std::to_string(i+1))+ ". " + marshal_as< System::String^>(name[i]) + " " + marshal_as< System::String^ >(std::to_string(money[i])) + "$\n";
+		}
+
+		MessageBox::Show(text, "Best", MessageBoxButtons::OK, MessageBoxIcon::None);
+	}
+};
 }

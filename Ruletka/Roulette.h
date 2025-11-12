@@ -3,6 +3,7 @@
 #include <ctime>
 #include <iostream>
 #include <string>
+#include <fstream>
 
 enum eBet
 {
@@ -39,9 +40,8 @@ struct sBet
 	}
 };
 
-class sVector
+struct sVector
 {
-public:
 	int x;
 	int y;
 	sVector()
@@ -76,6 +76,8 @@ class Roulette
 	sBet* playerBet;
 	int randNumber = 0;
 	std::string playersName[5];
+	int bestMoney[5] = { 0,0,0,0,0 };
+	const std::string fillName = "BP.txt";
 
 	const int red[18] = {1,3,5,7,9,12,14,16,18,21,23,25,27,28,30,32,34,36};
 	const int numbers[3][12] =
@@ -132,5 +134,8 @@ public:
 	bool StartTurn();
 	int IsNextTurn();
 	
+	void UpdateBest();
+	void SaveBest();
+	void GetBest(int money[], std::string name[]);
 };
 

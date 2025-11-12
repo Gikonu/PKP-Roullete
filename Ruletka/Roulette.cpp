@@ -1,4 +1,5 @@
 #include "Roulette.h"
+#include <algorithm>
 
 
 Roulette::Roulette()
@@ -21,6 +22,7 @@ bool Roulette::SetPlayerAmount(int amount)
 		return false;
 	}
 	playerAmount = amount;
+	playerTurn = 1;
 
 	delete[] playersMoney;
 	playersMoney = new int[playerAmount];
@@ -531,6 +533,7 @@ bool Roulette::StartTurn()
 	if (i > 0)
 	{
 		playerTurn = i;
+		return true;
 	}
 	else
 	{
@@ -556,5 +559,131 @@ int Roulette::IsNextTurn()
 		{
 			return 0;
 		}
+	}
+}
+
+void Roulette::UpdateBest()
+{
+	for (int i = 0; i < playerAmount; i++)
+	{
+		if (playersMoney[i] > bestMoney[i])
+		{
+			bestMoney[i] = playersMoney[i];
+		}
+	}
+}
+
+void Roulette::SaveBest()
+{
+	std::fstream fill;
+
+	int money[5]{ 0, 0, 0, 0, 0 }; std::string name[5]{ "a","b","c","d","e" };
+	GetBest(money, name);
+
+	int moneyA[5] {0, 0, 0, 0, 0}; std::string nameA[5]{"a","b","c","d","e"};
+	for (int i = 0; i < playerAmount; i++)
+	{
+		moneyA[i] = bestMoney[i];
+		nameA[i] = playersName[i];
+	}
+	for (int i = 0; i < playerAmount; i++)
+	{
+		for (int j = i + 1; j < playerAmount; j++)
+		{
+			if (moneyA[i] < moneyA[j])
+			{
+				int tym = moneyA[i];
+				moneyA[i] = moneyA[j];
+				moneyA[j] = tym;
+
+				std::string ntym = nameA[i];
+				nameA[i] = nameA[j];
+				nameA[j] = ntym;
+			}
+		}
+	}
+
+	for (int i = 0; i < playerAmount; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			if (nameA[i] == name[j])
+			{
+				if (moneyA[i] < money[j])
+				{
+					moneyA[i] = -1;
+				}
+				else
+				{
+					money[j] = -1;
+				}
+			}
+		}
+	}
+
+	fill.open(fillName, std::ios::out);
+	if (fill.is_open())
+	{
+		int a = 0, b = 0;
+		for (int i = 0; i < 5; i++)
+		{
+			if (moneyA[a] > money[b])
+			{
+				fill << nameA[a] << "_" << moneyA[a] << std::endl;
+				a++;
+			}
+			else
+			{
+				fill << name[b] << "_" << money[b] << std::endl;
+				b++;
+			}
+		}
+		fill.close();
+	}
+}
+
+void Roulette::GetBest(int money[], std::string name[])
+{
+	std::fstream fill;
+	fill.open(fillName, std::ios::in);
+	if (fill.is_open())
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			std::string tym;
+			std::getline(fill, tym);
+			if (tym != "")
+			{
+				name[i] = "";
+				int j;
+				for (j = 0; j < tym.length(); j++)
+				{
+					if (tym[j] == ' ')
+					{
+						continue;
+					}
+					if (tym[j] == '_')
+					{
+						j++;
+						break;
+					}
+					name[i] = name[i] + tym[j];
+				}
+				std::string tym2 = "";
+				for (; j < tym.length(); j++)
+				{
+					tym2 = tym2 + tym[j];
+				}
+				if (tym2 != "")
+				{
+					money[i] = std::stoi(tym2);
+				}
+				else
+				{
+					money[i] = 0;
+				}
+			}
+		}
+		fill.close();
 	}
 }
